@@ -24,7 +24,8 @@ from __future__ import print_function
 import tensorflow as tf
 import numpy as np
 from scipy.stats import multivariate_normal
-
+# import tensorflow_datasets
+# mnist = tensorflow_datasets.load('mnist')
 from tensorflow.examples.tutorials.mnist import input_data
 
 def prout():
@@ -61,6 +62,7 @@ def get_log_likelihood(X, gaussian):
   return m.logpdf(X).mean()
 
 def get_data():
+  # mnist = tensorflow_datasets.load('mnist')
   mnist = input_data.read_data_sets("MNIST_data/", validation_size=0)
   train_data = mnist.train.next_batch(60000, shuffle=False)[0]
   test_data = mnist.test.next_batch(10000, shuffle=False)[0]
