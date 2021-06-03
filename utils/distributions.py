@@ -42,14 +42,17 @@ class Gaussian(object):
   def __init__(self, mu, sigma):
     self.mu = mu
     self.sigma = sigma
+    self.sigma_var = tf.placeholder(tf.float32, shape=(2,2), name="sigma_var")
     
-    print(np.linalg.det(self.sigma), self.sigma.dtype)
+    # print(np.linalg.det(self.sigma), self.sigma.dtype)
     
-    self.i_sigma = np.linalg.inv(np.copy(sigma))
+    # self.i_sigma = np.linalg.inv(np.copy(self.sigma))
 
   def get_energy_function(self):
     def fn(x, *args, **kwargs):
-      S = tf.constant(self.i_sigma.astype('float32'))
+      sigma = self.sigma_var
+      S = tf.linalg.inv(sigma)
+      # S = tf.constant(self.i_sigma.astype('float32'))
       mu = tf.constant(self.mu.astype('float32'))
 
       return quadratic_gaussian(x, mu, S)

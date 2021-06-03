@@ -37,12 +37,14 @@ class Dynamics(object):
                energy_function,
                T=25,
                eps=0.1,
+               width=10,
                hmc=False,
                net_factory=None,
                eps_trainable=True,
                use_temperature=False):
 
     self.x_dim = x_dim
+    self.width = width
     self.use_temperature = use_temperature
     self.temperature = tf.placeholder(TF_FLOAT, shape=())
     
@@ -75,8 +77,8 @@ class Dynamics(object):
       self.XNet = lambda inp: [tf.zeros_like(inp[0]) for t in range(3)]
       self.VNet = lambda inp: [tf.zeros_like(inp[0]) for t in range(3)]
     else:
-      self.XNet = net_factory(x_dim, scope='XNet', factor=2.0)
-      self.VNet = net_factory(x_dim, scope='VNet', factor=1.0)
+      self.XNet = net_factory(x_dim, width, scope='XNet', factor=2.0)
+      self.VNet = net_factory(x_dim, width, scope='VNet', factor=1.0)
       # self.Sv, self.Tv, self.Fv = self.VNet.S, self.VNet.T, self.VNet.F
       # self.Sx, self.Tx, self.Fx = self.XNet.S, self.XNet.T, self.XNet.F
 
